@@ -5,4 +5,7 @@
         database   => 'test',
         collection => 'test',
     },
+    boostrap => {
+        web => ['-p' => 50004],
+    },
 }
