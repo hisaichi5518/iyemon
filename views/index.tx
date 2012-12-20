@@ -1,0 +1,82 @@
+: cascade layout::base {title => '行動ログ閲覧'}
+
+: around form -> {
+<div class="well">
+  <label>開始日時(必須)</label>
+  <input type="text" class="span3" placeholder="2012-01-01 00:00 (指定してください)" id="query-start-date" value="">
+
+  <label>終了日時</label>
+  <input type="text" class="span3" placeholder="2012-01-01 13:00 (指定なしの場合:現在時刻)" id="query-end-date" value="">
+
+  <label>uid</label>
+  <input type="text" class="span3" placeholder="12345" id="query-uid">
+
+  <label>行動タイプ</label>
+  <input type="text" class="span3" placeholder="access_board" id="query-action-type">
+
+  <label>ページ番号(必須)</label>
+  <input type="text" class="span3" placeholder="1(指定してください)" id="page" value="1">
+
+  <button type="submit" class="btn" id="search-log">検索開始</button>
+</div>
+: }
+
+: around body -> {
+<ul class="pager">
+  <li class="previous">
+    <a href="#">&larr; Older</a>
+  </li>
+  <li class="next" class="">
+    <a href="#">Newer &rarr;</a>
+  </li>
+</ul>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>行動時間</th>
+      <th>uid</th>
+      <th>行動タイプ</th>
+      <th>その他のデータ</th>
+    </tr>
+  </thead>
+    <tbody id="result-body"></tbody>
+</table>
+<ul class="pager">
+  <li class="previous">
+    <a href="#">&larr; Older</a>
+  </li>
+  <li class="next">
+    <a href="#">Newer &rarr;</a>
+  </li>
+</ul>
+<script type="text/javascript">
+  function openData(id) {
+    document.getElementById('open-' + id).style.display = "none";
+    document.getElementById('data-' + id).style.display = "block";
+  }
+
+  function closeData(id) {
+    document.getElementById('data-' + id).style.display = "none";
+    document.getElementById('open-' + id).style.display = "block";
+  }
+</script>
+
+<script type="text/x-jquery-tmpl" id="result-body-template">
+  <tr>
+    <td>${time}</td>
+    <td>${uid}</td>
+    <td>${type}</td>
+    <td>
+      <div id="open-${_id}">
+        <p><a href="#" onclick="openData('${_id}');return false;">表示する</a></p>
+      </div>
+      <div style="display:none;" id="data-${_id}">
+        <p><a href="#" onclick="closeData('${_id}');return false;">折りたたむ</a></p>
+        <pre>{{html $item.printValues($data)}}</pre>
+      </div>
+    </td>
+  </tr>
+</script>
+
+: }

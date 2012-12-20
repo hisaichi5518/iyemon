@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title><: $title :>- [伊右衛門]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="">
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">ユーザー行動ログ閲覧</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="sidebar-nav">
+            : block form -> {}
+          </div>
+        </div><!--/span-->
+        <div class="span9">
+          : block body -> {}
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer></footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- javascript -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" src="/js/json2.js"></script>
+
+    <script type="text/javascript">
+      $(function() {
+
+        var update_result_body = function() {
+          $('#search-log').click();
+        };
+
+        $(".previous").click(function() {
+          var page = parseInt( $("#page").val(), 10 ) - 1;
+          if (page >= 1) {
+            $("#page").val(page);
+            update_result_body();
+          }
+        });
+
+        $(".next").click(function() {
+          var page = parseInt( $("#page").val(), 10 ) + 1;
+          $("#page").val(page);
+          update_result_body();
+        });
+
+        $("#search-log").click(function() {
+          var query = {};
+          query.start_date = $('#query-start-date').val();
+          if (query.start_date === '') {
+            alert('開始日時の指定は必須です。');
+            return;
+          }
+
+          query.end_date = $('#query-end-date').val();
+          query.type = $('#query-action-type').val();
+          query.uid  = $('#query-uid').val();
+          query.page = parseInt($("#page").val(), 10);
+
+          $("#result-body").html('<p>読み込み中です…</p>');
+          var printValues = function (data) {
+            // _id, uid, type, time は無視してその他を出す。
+            delete data._id;
+            delete data.uid;
+            delete data.time;
+            delete data.type;
+
+            return JSON.stringify(data, null, 2);
+          };
+          var tempOpts = {printValues: printValues};
+
+          $.ajax({
+            type: "GET",
+            url: "/search",
+            data: query,
+            dataType: "json",
+            success: function(data) {
+              $("#result-body").empty();
+              $('#result-body-template').tmpl(data.results, tempOpts).appendTo("#result-body");
+            },
+            error:function(res) {
+              var data = JSON.parse(res.responseText);
+              $("#result-body").html('<p>データ取得に失敗しました。パラメータなど見なおしてください。' + data.message +'</p>');
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

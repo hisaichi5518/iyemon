@@ -1,0 +1,82 @@
+h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.sort_order_fix_box {
+    margin: 10px 0;
+}
+
+#taglist {
+    list-style: decimal;
+    padding: 0 0 0 20px;
+}
+
+#taglist li {
+    width: 200px;
+    border: 1px solid #000;
+    padding: 5px 40px 5px 5px;
+    margin: 10px 0;
+    position: relative;
+    cursor: move;
+    background: #EFEFEF;
+}
+
+#taglist li span.tagname {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#taglist li span.delbtn {
+    color: #FFF;
+    padding: 0 5px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #FFF;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: #ff222b;
+    cursor: pointer;
+    -webkit-transition: opacity 0.3s linear;
+}
+
+#taglist li span.delbtn:hover {
+    opacity: 0.5;
+}
+
+table.list,
+table.form {
+    width: 100%;
+}
+table.list th,
+table.list td,
+table.form th,
+table.form td {
+    padding: 5px;
+    border: 1px solid #000;
+}
+table.list th,
+table.form th {
+    background: #CCC;
+}
+table.form th {
+    width: 100px;
+}
+p.submit {
+    text-align: center;
+    margin: 10px 0;
+}
+p.submit input ,
+p.submit button {
+    font-weight: bold;
+    font-size: 20px;
+    color: #FFF;
+    padding: 10px;
+    width: 200px;
+    background: #333;
+    -webkit-border-radius: 5px;
+}
