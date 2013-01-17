@@ -96,12 +96,17 @@
           }
 
           query.end_date = $('#query-end-date').val();
-          query.type = $('#query-action-type').val();
 
           : for $config['num_keys'] -> $key {
               query.<: $key :>  = $('#query-<: $key :>').val();
           : } else {
               query.uid  = $('#query-uid').val();
+          : }
+
+          : for $config['str_keys'] -> $key {
+              query.<: $key :>  = $('#query-<: $key :>').val();
+          : } else {
+              query.type = $('#query-action-type').val();
           : }
 
           query.page = parseInt($("#page").val(), 10);
@@ -110,14 +115,19 @@
           var printValues = function (data) {
             // _id, uid, type, time は無視してその他を出す。
             delete data._id;
+            delete data.time;
 
             : for $config['num_keys'] -> $key {
               delete data.<: $key :>;
             : } else {
               delete data.uid;
             : }
-            delete data.time;
-            delete data.type;
+
+            : for $config['str_keys'] -> $key {
+              delete data.<: $key :>;
+            : } else {
+              delete data.type;
+            : }
 
             return JSON.stringify(data, null, 2);
           };

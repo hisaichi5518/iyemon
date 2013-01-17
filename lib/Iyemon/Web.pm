@@ -25,8 +25,8 @@ get '/search' => sub {
 
     my $opts = {limit => 100};
     my $criteria = {};
-    my @num_keys = @{config->param('num_keys')};
-    my @str_keys = qw/type/;
+    my @num_keys = @{config->param('num_keys') || [qw/uid/]};
+    my @str_keys = @{config->param('str_keys') || [qw/type/]};
 
     for my $key (@num_keys) {
         $criteria->{$key} = $c->req->param($key) + 0
@@ -106,8 +106,5 @@ sub _jsonize_log {
     }
     $obj;
 }
-
-
-
 
 1;

@@ -16,8 +16,13 @@
       <input type="text" class="span3" placeholder="12345" id="query-uid">
   : }
 
-  <label>行動タイプ</label>
-  <input type="text" class="span3" placeholder="access_board" id="query-action-type">
+  : for $config['str_keys'] -> $key {
+      <label><: $key :></label>
+      <input type="text" class="span3" placeholder="12345" id="query-<: $key :>">
+  : } else {
+      <label>行動タイプ</label>
+      <input type="text" class="span3" placeholder="access_board" id="query-action-type">
+  : }
 
   <label>ページ番号(必須)</label>
   <input type="text" class="span3" placeholder="1(指定してください)" id="page" value="1">
@@ -45,7 +50,11 @@
       : } else {
           <th>uid</th>
       : }
-      <th>行動タイプ</th>
+      : for $config['str_keys'] -> $key {
+          <th><: $key :></th>
+      : } else {
+          <th>行動タイプ</th>
+      : }
       <th>その他のデータ</th>
     </tr>
   </thead>
@@ -81,7 +90,12 @@
         <td>${uid}</td>
     : }
 
-    <td>${type}</td>
+    : for $config['str_keys'] -> $key {
+        <td>${<: $key :>}</td>
+    : } else {
+        <td>${type}</td>
+    : }
+
     <td>
       <div id="open-${_id}">
         <p><a href="#" onclick="openData('${_id}');return false;">表示する</a></p>
