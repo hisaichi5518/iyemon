@@ -8,4 +8,6 @@
     boostrap => {
         web => ['-p' => 50004],
     },
+    #num_keys => [qw/uid/],
+    #str_keys => [qw/type/],
 }
