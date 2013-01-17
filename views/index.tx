@@ -8,8 +8,13 @@
   <label>終了日時</label>
   <input type="text" class="span3" placeholder="2012-01-01 13:00 (指定なしの場合:現在時刻)" id="query-end-date" value="">
 
-  <label>uid</label>
-  <input type="text" class="span3" placeholder="12345" id="query-uid">
+  : for $config['num_keys'] -> $key {
+      <label><: $key :></label>
+      <input type="text" class="span3" placeholder="12345" id="query-<: $key :>">
+  : } else {
+      <label>uid</label>
+      <input type="text" class="span3" placeholder="12345" id="query-uid">
+  : }
 
   <label>行動タイプ</label>
   <input type="text" class="span3" placeholder="access_board" id="query-action-type">
@@ -35,7 +40,11 @@
   <thead>
     <tr>
       <th>行動時間</th>
-      <th>uid</th>
+      : for $config['num_keys'] -> $key {
+          <th><: $key :></th>
+      : } else {
+          <th>uid</th>
+      : }
       <th>行動タイプ</th>
       <th>その他のデータ</th>
     </tr>
@@ -65,7 +74,13 @@
 <script type="text/x-jquery-tmpl" id="result-body-template">
   <tr>
     <td>${time}</td>
-    <td>${uid}</td>
+
+    : for $config['num_keys'] -> $key {
+        <td>${<: $key :>}</td>
+    : } else {
+        <td>${uid}</td>
+    : }
+
     <td>${type}</td>
     <td>
       <div id="open-${_id}">

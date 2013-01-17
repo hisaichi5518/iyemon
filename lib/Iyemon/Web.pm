@@ -12,7 +12,7 @@ use Iyemon::Config;
 
 get '/' => sub {
     my ($self, $c) = @_;
-    $c->render('index.tx');
+    $c->render('index.tx', {config => Iyemon::Config->current});
 };
 
 get '/search' => sub {
@@ -25,7 +25,7 @@ get '/search' => sub {
 
     my $opts = {limit => 100};
     my $criteria = {};
-    my @num_keys = qw/uid/;
+    my @num_keys = @{config->param('num_keys')};
     my @str_keys = qw/type/;
 
     for my $key (@num_keys) {
