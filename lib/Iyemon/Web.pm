@@ -6,7 +6,7 @@ use utf8;
 use Kossy;
 use Scalar::Util qw/looks_like_number blessed/;
 use DateTime;
-use DateTime::Format::HTTP;
+use DateTime::Format::Strptime;
 use MongoDB;
 use Iyemon::Config;
 
@@ -38,9 +38,10 @@ get '/search' => sub {
     }
 
     my %date;
+    my $strp = DateTime::Format::Strptime->new(pattern => '%Y-%m-%dT%H:%M');
     for my $type (qw/start end/) {
         if (my $date = $c->req->param("$type\_date")) {
-            my $t = DateTime::Format::HTTP->parse_datetime($date);
+            my $t = $strp->parse_datetime($date);
             $date{$type} = $t;
         }
         else {
@@ -55,8 +56,8 @@ get '/search' => sub {
     }
     $criteria->{time} = {'$gte' => $date{start}, '$lte' => $date{end}};
     my $page = $c->req->param('page') || 1;
-    if ($page ne 'NaN' && looks_like_number $page) {
-        $opts->{page} = $page;
+    if ($page ne 'NaN' && looks_like_number $page && $page > 0) {
+        $opts->{skip} = $opts->{limit} * ($page - 1);
     }
     else {
         $c->halt(400);
