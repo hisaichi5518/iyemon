@@ -3,10 +3,10 @@
 : around form -> {
 <div class="well">
   <label>開始日時(必須)</label>
-  <input type="text" class="span3" placeholder="2012-01-01 00:00 (指定してください)" id="query-start-date" value="">
+  <input type="datetime-local" class="span3" id="query-start-date">
 
   <label>終了日時</label>
-  <input type="text" class="span3" placeholder="2012-01-01 13:00 (指定なしの場合:現在時刻)" id="query-end-date" value="">
+  <input type="datetime-local" class="span3" id="query-end-date">
 
   : for $config['num_keys'] -> $key {
       <label><: $key :></label>

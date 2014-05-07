@@ -6,7 +6,7 @@ use utf8;
 use Kossy;
 use Scalar::Util qw/looks_like_number blessed/;
 use DateTime;
-use DateTime::Format::HTTP;
+use DateTime::Format::Strptime;
 use MongoDB;
 use Iyemon::Config;
 
@@ -38,9 +38,10 @@ get '/search' => sub {
     }
 
     my %date;
+    my $strp = DateTime::Format::Strptime->new(pattern => '%Y-%m-%dT%H:%M');
     for my $type (qw/start end/) {
         if (my $date = $c->req->param("$type\_date")) {
-            my $t = DateTime::Format::HTTP->parse_datetime($date);
+            my $t = $strp->parse_datetime($date);
             $date{$type} = $t;
         }
         else {
