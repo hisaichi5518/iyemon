@@ -2,30 +2,43 @@
 
 : around form -> {
 <div class="well">
-  <label>開始日時(必須)</label>
-  <input type="datetime-local" class="span3" id="query-start-date">
-
-  <label>終了日時</label>
-  <input type="datetime-local" class="span3" id="query-end-date">
+  <label>
+    開始日時(必須)
+    <input type="datetime-local" class="span3" id="query-start-date">
+  </label>
+  <label>
+    終了日時
+    <input type="datetime-local" class="span3" id="query-end-date">
+  </label>
 
   : for $config['num_keys'] -> $key {
-      <label><: $key :></label>
-      <input type="text" class="span3" placeholder="12345" id="query-<: $key :>">
+      <label>
+        <: $key :>
+          <input type="text" class="span3" placeholder="12345" id="query-<: $key :>">
+      </label>
   : } else {
-      <label>uid</label>
-      <input type="text" class="span3" placeholder="12345" id="query-uid">
+      <label>
+        uid
+        <input type="text" class="span3" placeholder="12345" id="query-uid">
+      </label>
   : }
 
   : for $config['str_keys'] -> $key {
-      <label><: $key :></label>
-      <input type="text" class="span3" placeholder="12345" id="query-<: $key :>">
+      <label>
+        <: $key :>
+          <input type="text" class="span3" placeholder="12345" id="query-<: $key :>">
+      </label>
   : } else {
-      <label>行動タイプ</label>
-      <input type="text" class="span3" placeholder="access_board" id="query-action-type">
+      <label>
+        行動タイプ
+        <input type="text" class="span3" placeholder="access_board" id="query-action-type">
+      </label>
   : }
 
-  <label>ページ番号(必須)</label>
-  <input type="text" class="span3" placeholder="1(指定してください)" id="page" value="1">
+  <label>
+    ページ番号(必須)
+    <input type="text" class="span3" placeholder="1(指定してください)" id="page" value="1">
+  </label>
 
   <button type="submit" class="btn" id="search-log">検索開始</button>
 </div>
