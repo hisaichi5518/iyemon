@@ -56,8 +56,8 @@ get '/search' => sub {
     }
     $criteria->{time} = {'$gte' => $date{start}, '$lte' => $date{end}};
     my $page = $c->req->param('page') || 1;
-    if ($page ne 'NaN' && looks_like_number $page) {
-        $opts->{page} = $page;
+    if ($page ne 'NaN' && looks_like_number $page && $page > 0) {
+        $opts->{skip} = $opts->{limit} * ($page - 1);
     }
     else {
         $c->halt(400);
